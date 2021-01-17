@@ -2,6 +2,7 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,6 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -35,16 +38,14 @@ public class Boxplot extends Application {
         double drawMed = median*scaling;
         double drawQ2 = quantile75*scaling;
         double drawMax = maximum*scaling;
+        double xaxis = 200;
 
         Rectangle box = new Rectangle(drawQ1, 50, drawQ2 - drawQ1, 100);
         box.setFill(Color.LIGHTBLUE);
         box.setEffect(dropShadow);
 
-        Line scale = new Line(0, 200, width, 200);
-        double m1 = width/2;
-        Line text1 = new Line(m1,200-5,m1,200+5);
 
-        Label lbiz = new Label("aLABEL");
+
 
         Line whiskerLeft = new Line(drawMin,100,drawQ1,100);
         Line whiskerRight = new Line(drawQ2,100,drawMax,100);
@@ -53,8 +54,54 @@ public class Boxplot extends Application {
         Line medianLine = new Line(drawMed, 50, drawMed, 150);
         medianLine.setStroke(Color.RED);
         medianLine.setStrokeWidth(3.0f);
+        Line scale = new Line(0, xaxis, width, xaxis);
 
-        g.getChildren().addAll(box, whiskerLeft,whiskerRight,scale,whisker1,whisker2,medianLine,text1);
+        //Label Mitte
+        /*
+        Label labelMID = new Label(""+((maximum*1.1)/2));
+        labelMID.setTranslateX(width/2);
+        labelMID.setTranslateY(xaxis);
+
+        //Linien zur Skalierung
+        Line scale = new Line(0, xaxis, width, xaxis);
+        double m1 = width/2;
+        Line text1 = new Line(m1,xaxis-5,m1,xaxis+5);
+        */
+
+        //Min Max Median Beschriftungen
+        Line scaleMin = new Line(drawMin,xaxis-5,drawMin,xaxis+5);
+        Line scaleMax = new Line(drawMax,xaxis-5,drawMax,xaxis+5);
+        Line scaleMed = new Line(drawMed,xaxis-5,drawMed,xaxis+5);
+        Line scaleQ1 = new Line(drawQ1,xaxis-5,drawQ1,xaxis+5);
+        Line scaleQ2 = new Line(drawQ2,xaxis-5,drawQ2,xaxis+5);
+
+        Label labelMin = new Label(""+minimum);
+        labelMin.setTranslateX(drawMin-10);
+        labelMin.setTranslateY(xaxis+5);
+
+        Label labelMax = new Label(""+maximum);
+        labelMax.setTranslateX(drawMax-10);
+        labelMax.setTranslateY(xaxis+5);
+
+        Label labelMed = new Label(""+median);
+        labelMed.setTranslateX(drawMed-10);
+        labelMed.setTranslateY(xaxis+5);
+
+        Label labelQ25 = new Label(""+quantile25);
+        labelQ25.setTranslateX(drawQ1-10);
+        labelQ25.setTranslateY(xaxis+5);
+
+        Label labelQ75 = new Label(""+quantile75);
+        labelQ75.setTranslateX(drawQ2-10);
+        labelQ75.setTranslateY(xaxis+5);
+
+
+
+        g.getChildren().addAll(box, whiskerLeft,whiskerRight,scale,whisker1,whisker2,medianLine,
+                scaleMin,scaleMax,scaleMed,scaleQ1,scaleQ2,
+                labelMin,labelMax,labelMed,labelQ25,labelQ75);
+
+
 
         primaryStage.setTitle("Boxplot");
         primaryStage.setScene(new Scene(g, width, 250));
@@ -67,10 +114,3 @@ public class Boxplot extends Application {
         launch(args);
     }
 }
-
-/*
-Vertikale streifen CHECK
-Skalierung CHECK
-Berechnung CHECK
-Beschriftungen Unten
-*/
