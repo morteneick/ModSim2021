@@ -31,6 +31,7 @@ public class Boxplot extends Application {
         Group g = new Group();
         DropShadow dropShadow = new DropShadow();
 
+        //Scaling
         double width = 1000;
         double scaling = (width/(maximum*1.1));
         double drawMin = minimum*scaling;
@@ -44,9 +45,7 @@ public class Boxplot extends Application {
         box.setFill(Color.LIGHTBLUE);
         box.setEffect(dropShadow);
 
-
-
-
+        //drawing
         Line whiskerLeft = new Line(drawMin,100,drawQ1,100);
         Line whiskerRight = new Line(drawQ2,100,drawMax,100);
         Line whisker1 = new Line(drawMin,90,drawMin,110);
@@ -55,18 +54,6 @@ public class Boxplot extends Application {
         medianLine.setStroke(Color.RED);
         medianLine.setStrokeWidth(3.0f);
         Line scale = new Line(0, xaxis, width, xaxis);
-
-        //Label Mitte
-        /*
-        Label labelMID = new Label(""+((maximum*1.1)/2));
-        labelMID.setTranslateX(width/2);
-        labelMID.setTranslateY(xaxis);
-
-        //Linien zur Skalierung
-        Line scale = new Line(0, xaxis, width, xaxis);
-        double m1 = width/2;
-        Line text1 = new Line(m1,xaxis-5,m1,xaxis+5);
-        */
 
         //Min Max Median Beschriftungen
         Line scaleMin = new Line(drawMin,xaxis-5,drawMin,xaxis+5);
@@ -95,17 +82,14 @@ public class Boxplot extends Application {
         labelQ75.setTranslateX(drawQ2-10);
         labelQ75.setTranslateY(xaxis+5);
 
-
-
         g.getChildren().addAll(box, whiskerLeft,whiskerRight,scale,whisker1,whisker2,medianLine,
                 scaleMin,scaleMax,scaleMed,scaleQ1,scaleQ2,
                 labelMin,labelMax,labelMed,labelQ25,labelQ75);
 
-
-
         primaryStage.setTitle("Boxplot");
         primaryStage.setScene(new Scene(g, width, 250));
         primaryStage.show();
+
 
     }
 
